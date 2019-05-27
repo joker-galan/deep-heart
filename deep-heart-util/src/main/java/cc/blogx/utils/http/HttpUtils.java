@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 
-public class HttpUtil {
+public class HttpUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(HttpUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(HttpUtils.class);
     private static final String UTF_8 = "utf-8";
     private static final Integer TIMEOUT = 5000;
 
