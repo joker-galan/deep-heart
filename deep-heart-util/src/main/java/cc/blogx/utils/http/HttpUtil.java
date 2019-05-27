@@ -1,4 +1,4 @@
-package cc.blogx.utils;
+package cc.blogx.utils.http;
 
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
