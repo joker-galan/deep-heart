@@ -1,27 +1,27 @@
-package cc.blogx.model;
+package cc.blogx.minipro.model;
 
 import java.io.Serializable;
 import java.util.List;
 
 public class CalendarVO implements Serializable {
 
-    private String beginWeek;
-    private String maxDay;
+    private int beginWeek;
+    private int maxDay;
     private List<CalendarDay> days;
 
-    public String getBeginWeek() {
+    public int getBeginWeek() {
         return beginWeek;
     }
 
-    public void setBeginWeek(String beginWeek) {
+    public void setBeginWeek(int beginWeek) {
         this.beginWeek = beginWeek;
     }
 
-    public String getMaxDay() {
+    public int getMaxDay() {
         return maxDay;
     }
 
-    public void setMaxDay(String maxDay) {
+    public void setMaxDay(int maxDay) {
         this.maxDay = maxDay;
     }
 
@@ -36,8 +36,8 @@ public class CalendarVO implements Serializable {
     public static class CalendarDay implements Serializable {
         private boolean happy;
         private boolean sad;
-        private boolean surprise;
-        private String inLunar;
+        private String surprise;
+        private String lunar;
 
 
         public boolean isHappy() {
@@ -56,20 +56,20 @@ public class CalendarVO implements Serializable {
             this.sad = sad;
         }
 
-        public boolean isSurprise() {
+        public String getSurprise() {
             return surprise;
         }
 
-        public void setSurprise(boolean surprise) {
+        public void setSurprise(String surprise) {
             this.surprise = surprise;
         }
 
-        public String getInLunar() {
-            return inLunar;
+        public String getLunar() {
+            return lunar;
         }
 
-        public void setInLunar(String inLunar) {
-            this.inLunar = inLunar;
+        public void setLunar(String lunar) {
+            this.lunar = lunar;
         }
     }
 

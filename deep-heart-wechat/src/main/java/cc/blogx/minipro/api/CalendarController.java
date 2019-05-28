@@ -1,9 +1,9 @@
-package cc.blogx.api;
+package cc.blogx.minipro.api;
 
 import cc.blogx.common.JsonResult;
-import cc.blogx.model.CalendarParam;
-import cc.blogx.model.CalendarVO;
-import cc.blogx.service.CalendarService;
+import cc.blogx.minipro.model.CalendarParam;
+import cc.blogx.minipro.model.CalendarVO;
+import cc.blogx.minipro.service.CalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

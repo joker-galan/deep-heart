@@ -1,4 +1,4 @@
-package cc.blogx.model;
+package cc.blogx.minipro.model;
 
 import java.io.Serializable;
 
