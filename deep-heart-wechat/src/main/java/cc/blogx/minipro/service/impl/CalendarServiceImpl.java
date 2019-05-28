@@ -64,6 +64,9 @@ public class CalendarServiceImpl implements CalendarService {
 
     private Map<String, String> getLunarInfo(DateTime dateTime, int days) {
         Map<String, String> map = new HashMap<>();
+
+
+
         for (int i = 0; i < days; i++) {
 
             dateTime = dateTime.plusDays(0);
@@ -88,5 +91,14 @@ public class CalendarServiceImpl implements CalendarService {
         return set;
     }
 
+    private void calcLunarCalendar(DateTime dateTime, int days) {
+        int year = dateTime.getYear();
+        int month = dateTime.getMonthOfYear();
+
+
+
+
+
+    }
 
 }
