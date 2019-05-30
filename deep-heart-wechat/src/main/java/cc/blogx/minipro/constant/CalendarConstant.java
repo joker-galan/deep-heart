@@ -1,5 +1,8 @@
 package cc.blogx.minipro.constant;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+
 public class CalendarConstant {
 
     public static final String[] LUNAR_DAYS = {
@@ -47,10 +50,17 @@ public class CalendarConstant {
             0x0e968, 0x0d520, 0x0daa0, 0x16aa6, 0x056d0, 0x04ae0, 0x0a9d4, 0x0a2d0, 0x0d150, 0x0f252, // 2090-2099
             0x0d520};                                                                                 // 2100
 
-    // 公历1901年01月01日 对应 农历为 1900十一月十一
-    public static final String INIT_GRE_CAL = "1900-11-11 00:00:00";
+    public static final int INIT_LUNAR_YEAR = 1900;
 
-//    public static void main(String[] args) {
-//        System.out.println(0x14b63 & 0x10000);
-//    }
+    // 公历1901年01月01日 对应 农历为 1900十一月十一
+    public static final String INIT_1901_01_01 = "1901-01-01";
+    // 公历1901年01月01日 与 农历为1900十一月十一 对照偏移天数
+    public static final int INIT_OFFSET = 48;
+
+
+    public static void main(String[] args) {
+        DateTime a = new DateTime(1901, 01, 01, 0, 0);
+        DateTime b = new DateTime(1900, 11, 11, 0, 0);
+        System.out.println(Days.daysBetween(a, b).getDays());
+    }
 }

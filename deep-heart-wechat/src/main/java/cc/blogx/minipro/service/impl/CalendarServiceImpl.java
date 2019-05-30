@@ -2,6 +2,7 @@ package cc.blogx.minipro.service.impl;
 
 import cc.blogx.minipro.model.CalendarParam;
 import cc.blogx.minipro.model.CalendarVO;
+import cc.blogx.minipro.model.LeapMonthInfo;
 import cc.blogx.minipro.service.CalendarService;
 import cc.blogx.utils.date.DateUtils;
 import org.joda.time.DateTime;
@@ -35,8 +36,9 @@ public class CalendarServiceImpl implements CalendarService {
     private CalendarVO getInfo(DateTime dateTime) {
 
         CalendarVO calendar = new CalendarVO();
-
+        // 公历当月第一天星期几
         calendar.setBeginWeek(DateUtils.getFirstDayOfMonOfWeek(dateTime));
+        // 公历当月一共多少天
         calendar.setMaxDay(DateUtils.getDaysOfMon(dateTime));
 
         Map<String, String> lunarMap = getLunarInfo(dateTime, calendar.getMaxDay());
@@ -64,12 +66,9 @@ public class CalendarServiceImpl implements CalendarService {
 
     private Map<String, String> getLunarInfo(DateTime dateTime, int days) {
         Map<String, String> map = new HashMap<>();
-
-
-
         for (int i = 0; i < days; i++) {
 
-            dateTime = dateTime.plusDays(0);
+
 
         }
         return map;
@@ -93,8 +92,9 @@ public class CalendarServiceImpl implements CalendarService {
 
     private void calcLunarCalendar(DateTime dateTime, int days) {
         int year = dateTime.getYear();
-        int month = dateTime.getMonthOfYear();
-
+        LeapMonthInfo leapMonthInfo = new LeapMonthInfo();
+        leapMonthInfo.setYear(year);
+        int countDays = leapMonthInfo.getUntilThisYearCountDays(dateTime);
 
 
 
