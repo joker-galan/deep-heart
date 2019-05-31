@@ -5,12 +5,12 @@ import org.joda.time.Days;
 
 public class CalendarConstant {
 
-    public static final String[] LUNAR_DAYS = {
+    public static final String[] LUNAR_DAYS = {"",
             "初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十",
             "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "廿十",
             "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十"};
 
-    public static final String[] LUNAR_MONTHS = {"正月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "冬月", "腊月"};
+    public static final String[] LUNAR_MONTHS = {"", "正月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "冬月", "腊月"};
 
     public static final String[] BRANCH = {"子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"};
 
@@ -50,12 +50,14 @@ public class CalendarConstant {
             0x0e968, 0x0d520, 0x0daa0, 0x16aa6, 0x056d0, 0x04ae0, 0x0a9d4, 0x0a2d0, 0x0d150, 0x0f252, // 2090-2099
             0x0d520};                                                                                 // 2100
 
-    public static final int INIT_LUNAR_YEAR = 1900;
+    public static final int INIT_TABLE_INDEX = 1900;
+
 
     // 公历1901年01月01日 对应 农历为 1900十一月十一
     public static final String INIT_1901_01_01 = "1901-01-01";
     // 公历1901年01月01日 与 农历为1900十一月十一 对照偏移天数
     public static final int INIT_OFFSET = 48;
+    public static final int INIT_1901 = 1901;
 
 
     public static void main(String[] args) {

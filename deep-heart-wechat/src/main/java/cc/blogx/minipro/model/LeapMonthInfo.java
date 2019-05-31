@@ -4,24 +4,20 @@ import cc.blogx.minipro.constant.CalendarConstant;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
+import java.util.Arrays;
+
 public class LeapMonthInfo {
 
     private int year;
-    private int beginYear;
     private int lunarTable;
 
     public void setYear(int year) {
         this.year = year;
-        this.beginYear = CalendarConstant.INIT_LUNAR_YEAR;
-        this.lunarTable = CalendarConstant.LUNAR_TABLE[year - this.beginYear];
+        this.lunarTable = CalendarConstant.LUNAR_TABLE[year - CalendarConstant.INIT_TABLE_INDEX];
     }
 
     public int getYear() {
         return year;
-    }
-
-    public int getBeginYear() {
-        return beginYear;
     }
 
     public int getLunarTable() {
@@ -43,18 +39,27 @@ public class LeapMonthInfo {
     // 当前农历年的总天数
     public int getThisYearCountDays() {
         int sum = 0;
-        if (isHasLeapMonth()) {
-            sum += getLeapMonthDays();
-        }
-//        getLunarTable()
-
+        int[] monMapper = getMonthMapper();
+        sum += Arrays.stream(monMapper).sum();
         return sum;
     }
 
-    // 从公历1901-01-01 当前间隔天数
-    public int getUntilThisYearCountDays(DateTime dateTime) {
-        DateTime init = DateTime.parse(CalendarConstant.INIT_1901_01_01);
-        return Days.daysBetween(init, dateTime).getDays();
+    public int[] getMonthMapper() {
+        int table = getLunarTable() >> 4;
+        int months[] = new int[isHasLeapMonth() ? 14 : 13];
+        for (int i = isHasLeapMonth() ? 13 : 12; i > 0; i--) {
+            if (isHasLeapMonth() && ((i - 1) == getLeapMonth())) {
+                months[i] = getLeapMonthDays();
+                continue;
+            }
+            if ((table & 0x1) > 0) {
+                months[i] = 30;
+            } else {
+                months[i] = 29;
+            }
+            table = table >> 1;
+        }
+        return months;
     }
 
 }
