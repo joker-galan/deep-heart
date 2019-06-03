@@ -29,7 +29,11 @@ public class LeapMonthInfo {
     }
 
     public int getLeapMonth() {
-        return this.lunarTable & 0xf;
+        int mon = this.lunarTable & 0xf;
+        if (mon > 0) {
+            return mon;
+        }
+        return -1;
     }
 
     public int getLeapMonthDays() {
