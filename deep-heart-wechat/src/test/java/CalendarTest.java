@@ -1,4 +1,5 @@
-import cc.blogx.ApplicationRun;
+
+import cc.blogx.ApplicationRunning;
 import cc.blogx.minipro.model.CalendarParam;
 import cc.blogx.minipro.service.impl.CalendarServiceImpl;
 import com.google.gson.Gson;
@@ -9,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = ApplicationRun.class)
+@SpringBootTest(classes = ApplicationRunning.class)
 public class CalendarTest {
 
     @Autowired

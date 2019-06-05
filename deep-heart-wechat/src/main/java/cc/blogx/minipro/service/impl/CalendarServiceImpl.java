@@ -6,7 +6,9 @@ import cc.blogx.minipro.model.CalendarParam;
 import cc.blogx.minipro.model.CalendarVO;
 import cc.blogx.minipro.model.LeapMonthInfo;
 import cc.blogx.minipro.service.CalendarService;
+import cc.blogx.utils.common.RedisUtils;
 import cc.blogx.utils.date.DateUtils;
+import com.google.gson.Gson;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.springframework.stereotype.Service;
@@ -39,19 +41,26 @@ public class CalendarServiceImpl implements CalendarService {
 
     private CalendarVO getInfo(DateTime dateTime) {
 
-        CalendarVO calendar = new CalendarVO();
-        // 公历当月第一天星期几
-        calendar.setBeginWeek(DateUtils.getFirstDayOfMonOfWeek(dateTime));
-        // 公历当月一共多少天
-        calendar.setMaxDay(DateUtils.getDaysOfMon(dateTime));
+        String cacheKey = DateUtils.getDay(dateTime);
+        String cacheValue = RedisUtils.get(cacheKey);
+        if (StringUtils.isEmpty(cacheValue)) {
+            CalendarVO calendar = new CalendarVO();
+            // 公历当月第一天星期几
+            calendar.setBeginWeek(DateUtils.getFirstDayOfMonOfWeek(dateTime));
+            // 公历当月一共多少天
+            calendar.setMaxDay(DateUtils.getDaysOfMon(dateTime));
 
-        Map<String, String> lunarMap = getLunarInfo(dateTime);
-        Map<String, String> surpriseMap = getSurpriseInfo(dateTime);
-        Set<String> holidays = getHolidayInfo(dateTime);
-        Set<String> workings = getWorkingInfo(dateTime);
+            Map<String, String> lunarMap = getLunarInfo(dateTime);
+            Map<String, String> surpriseMap = getSurpriseInfo(dateTime);
+            Set<String> holidays = getHolidayInfo(dateTime);
+            Set<String> workings = getWorkingInfo(dateTime);
 
-        calendar.setDays(buildCalendarDays(lunarMap, surpriseMap, holidays, workings));
-        return calendar;
+            calendar.setDays(buildCalendarDays(lunarMap, surpriseMap, holidays, workings));
+            RedisUtils.set(cacheKey, new Gson().toJson(calendar));
+            return calendar;
+        } else {
+            return new Gson().fromJson(cacheValue, CalendarVO.class);
+        }
     }
 
     private List<CalendarDay> buildCalendarDays(Map<String, String> lunarMap, Map<String, String> surpriseMap,

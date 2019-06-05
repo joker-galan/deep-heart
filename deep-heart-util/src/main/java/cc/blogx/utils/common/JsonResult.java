@@ -1,4 +1,6 @@
-package cc.blogx.common;
+package cc.blogx.utils.common;
+
+import cc.blogx.utils.enums.GlobalEnum;
 
 import java.io.Serializable;
 import java.util.List;
@@ -50,11 +52,15 @@ public class JsonResult<T> implements Serializable {
 
     public static JsonResult getSuccess() {
         JsonResult result = new JsonResult();
+        result.setCode(GlobalEnum.SUCCESS.getCode());
+        result.setMsg(GlobalEnum.SUCCESS.getMsg());
         return result;
     }
 
     public static JsonResult getFailed() {
         JsonResult result = new JsonResult();
+        result.setCode(GlobalEnum.ERROR.getCode());
+        result.setMsg(GlobalEnum.ERROR.getMsg());
         return result;
     }
 }

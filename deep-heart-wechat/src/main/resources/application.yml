@@ -1,0 +1,26 @@
+server:
+  port: 7777
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://122.114.191.222:5432/postgres?useSSL=false
+    username: postgres
+    password: psql123
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: HikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: select 1
+  redis:
+    host: 122.114.191.222
+    port: 6379
+    database: 8
+    password: mydb123
+
+debug: false
