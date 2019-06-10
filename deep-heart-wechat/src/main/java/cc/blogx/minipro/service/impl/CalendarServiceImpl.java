@@ -8,7 +8,7 @@ import cc.blogx.minipro.model.LeapMonthInfo;
 import cc.blogx.minipro.service.CalendarService;
 import cc.blogx.utils.common.RedisUtils;
 import cc.blogx.utils.date.DateUtils;
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSON;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.springframework.stereotype.Service;
@@ -54,12 +54,11 @@ public class CalendarServiceImpl implements CalendarService {
             Map<String, String> surpriseMap = getSurpriseInfo(dateTime);
             Set<String> holidays = getHolidayInfo(dateTime);
             Set<String> workings = getWorkingInfo(dateTime);
-
             calendar.setDays(buildCalendarDays(lunarMap, surpriseMap, holidays, workings));
-            RedisUtils.set(cacheKey, new Gson().toJson(calendar));
+            RedisUtils.set(cacheKey, JSON.toJSONString(calendar));
             return calendar;
         } else {
-            return new Gson().fromJson(cacheValue, CalendarVO.class);
+            return JSON.parseObject(cacheValue, CalendarVO.class);
         }
     }
 

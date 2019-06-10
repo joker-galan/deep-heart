@@ -2,6 +2,8 @@ package cc.blogx.utils.common;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
 
+import java.util.concurrent.TimeUnit;
+
 public class RedisUtils {
 
     private final static long expired = 12 * 60 * 60;
@@ -19,7 +21,7 @@ public class RedisUtils {
     }
 
     public static void set(String key, String value, long time) {
-        RedisUtils.getRedisTemplate().opsForValue().set(key, value, time);
+        RedisUtils.getRedisTemplate().opsForValue().set(key, value, time, TimeUnit.SECONDS);
     }
 
     public static String get(String key) {

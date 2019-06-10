@@ -5,7 +5,7 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://122.114.191.222:5432/postgres?useSSL=false
+    url: jdbc:postgresql://122.114.191.222:5432/postgres?currentSchema=deep_heart
     username: postgres
     password: psql123
     hikari:
