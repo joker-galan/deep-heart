@@ -1,30 +1,29 @@
 package cc.blogx.minipro.service.impl;
 
 import cc.blogx.minipro.constant.CalendarConstant;
-import cc.blogx.minipro.model.CalendarDay;
-import cc.blogx.minipro.model.CalendarParam;
-import cc.blogx.minipro.model.CalendarVO;
-import cc.blogx.minipro.model.LeapMonthInfo;
+import cc.blogx.minipro.model.*;
 import cc.blogx.minipro.service.CalendarService;
 import cc.blogx.utils.common.RedisUtils;
 import cc.blogx.utils.date.DateUtils;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CalendarServiceImpl implements CalendarService {
 
+
+    @Override
+    public DayInfo getDayInfo(CalendarParam param) {
+
+        return null;
+    }
 
     @Override
     public CalendarVO getMonthInfo(CalendarParam param) {
@@ -36,34 +35,46 @@ public class CalendarServiceImpl implements CalendarService {
         }
         // 当月第一天0点
         DateTime dateTime = new DateTime().dayOfMonth().withMinimumValue().withMillisOfDay(0);
-        return getInfo(dateTime);
+        return initDayInfo(getInfo(dateTime));
+    }
+
+    private CalendarVO initDayInfo(CalendarVO result) {
+        DateTime date = new DateTime();
+        String curDay = DateUtils.getDay(date);
+        DayInfo day = new DayInfo();
+        day.setGre(curDay);
+        day.setLunar(result.getDays().get(date.getDayOfMonth() - 1).getLunar());
+        day.setSpecial(true);
+//        day.setFestival("中秋节");
+        day.setBuddha(DateUtils.getDayChina(date.plusYears(CalendarConstant.BUDDHA_OFFSET)));
+        day.setWeek(CalendarConstant.WEEKS[date.getDayOfWeek()]);
+        result.setDayInfo(day);
+        return result;
     }
 
     private CalendarVO getInfo(DateTime dateTime) {
 
+        CalendarVO calendar = new CalendarVO();
         String cacheKey = DateUtils.getDay(dateTime);
         String cacheValue = RedisUtils.get(cacheKey);
+        Map<String, String> surpriseMap = getSurpriseInfo(dateTime);
+        Map<String, String> lunarMap;
         if (StringUtils.isEmpty(cacheValue)) {
-            CalendarVO calendar = new CalendarVO();
-            // 公历当月第一天星期几
-            calendar.setBeginWeek(DateUtils.getFirstDayOfMonOfWeek(dateTime));
-            // 公历当月一共多少天
-            calendar.setMaxDay(DateUtils.getDaysOfMon(dateTime));
-
-            Map<String, String> lunarMap = getLunarInfo(dateTime);
-            Map<String, String> surpriseMap = getSurpriseInfo(dateTime);
-            Set<String> holidays = getHolidayInfo(dateTime);
-            Set<String> workings = getWorkingInfo(dateTime);
-            calendar.setDays(buildCalendarDays(lunarMap, surpriseMap, holidays, workings));
-            RedisUtils.set(cacheKey, JSON.toJSONString(calendar));
-            return calendar;
+            lunarMap = getLunarInfo(dateTime);
+            RedisUtils.set(cacheKey, JSON.toJSONString(lunarMap));
         } else {
-            return JSON.parseObject(cacheValue, CalendarVO.class);
+//            lunarMap = JSON.parseObject(cacheValue, Map.class);
+            lunarMap = JSON.parseObject(cacheValue, new TypeReference<Map<String, String>>() {});
         }
+        // 公历当月第一天星期几
+        calendar.setBeginWeek(DateUtils.getFirstDayOfMonOfWeek(dateTime));
+        // 公历当月一共多少天
+        calendar.setMaxDay(DateUtils.getDaysOfMon(dateTime));
+        calendar.setDays(buildCalendarDays(lunarMap, surpriseMap));
+        return calendar;
     }
 
-    private List<CalendarDay> buildCalendarDays(Map<String, String> lunarMap, Map<String, String> surpriseMap,
-                                                Set<String> holidays, Set<String> workings) {
+    private List<CalendarDay> buildCalendarDays(Map<String, String> lunarMap, Map<String, String> surpriseMap) {
         List<CalendarDay> days = new ArrayList<>();
 
         lunarMap.forEach((key, value) -> {
@@ -71,14 +82,11 @@ public class CalendarServiceImpl implements CalendarService {
             day.setGre(key);
             day.setLunar(value);
             if (surpriseMap.containsKey(key)) day.setSurprise(surpriseMap.get(key));
-            if (holidays.contains(key)) day.setHappy(true);
-            if (workings.contains(key)) day.setSad(true);
             days.add(day);
         });
         days.sort(Comparator.comparing(CalendarDay::getGre));
         return days;
     }
-
 
     private Map<String, String> getLunarInfo(DateTime dateTime) {
         int countGreDays = getGreUntilThisYearCountDays(dateTime);
@@ -157,21 +165,16 @@ public class CalendarServiceImpl implements CalendarService {
         return countLunarDays;
     }
 
+    /**
+     * 从数据库中获取当月已添加的纪念日
+     *
+     * @param dateTime
+     * @return
+     */
     private Map<String, String> getSurpriseInfo(DateTime dateTime) {
         Map<String, String> map = new HashMap<>();
+        map.put("2019-06-28", "结婚纪念日");
         //TODO 从数据库中获取当月已添加的纪念日
         return map;
     }
-
-    private Set<String> getWorkingInfo(DateTime dateTime) {
-        Set<String> set = new HashSet<>();
-        return set;
-    }
-
-    private Set<String> getHolidayInfo(DateTime dateTime) {
-        Set<String> set = new HashSet<>();
-        return set;
-    }
-
-
 }

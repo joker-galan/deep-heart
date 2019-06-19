@@ -9,7 +9,7 @@ public class DateUtils {
 
     private final static String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
     private final static String YYYY_MM_DD = "yyyy-MM-dd";
-    private final static String aaa = "aa";
+    private final static String YYYY_MM_DD_ = "yyyy年MM月dd日";
 
     public static String getDay() {
         DateTime dateTime = new DateTime();
@@ -18,6 +18,11 @@ public class DateUtils {
 
     public static String getDay(DateTime dateTime) {
         DateTimeFormatter formatter = DateTimeFormat.forPattern(YYYY_MM_DD);
+        return dateTime.toString(formatter);
+    }
+
+    public static String getDayChina(DateTime dateTime) {
+        DateTimeFormatter formatter = DateTimeFormat.forPattern(YYYY_MM_DD_);
         return dateTime.toString(formatter);
     }
 
@@ -56,15 +61,5 @@ public class DateUtils {
 
     public static int getDaysOfMon(DateTime dateTime) {
         return dateTime.dayOfMonth().withMaximumValue().dayOfMonth().get();
-    }
-
-    public static void main(String[] args) {
-//        DateTime dateTime = new DateTime();
-//        System.out.println(dateTime.minusDays(1).dayOfWeek().getAsString());
-//        System.out.println(dateTime.dayOfMonth().withMinimumValue().dayOfWeek().getAsString());
-//        System.out.println(getDaysOfMon());
-//        System.out.println(getLastDayOfMonOfWeek());
-//        System.out.println(getFirstDayOfMonOfWeek());
-//        System.out.printf( new DateTime().dayOfMonth().withMinimumValue().withMillisOfDay(0).toString());
     }
 }

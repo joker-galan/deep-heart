@@ -7,7 +7,15 @@ public class CalendarParam implements Serializable {
     private String id;
     private String year;
     private String month;
+    private String date;
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getId() {
         return id;

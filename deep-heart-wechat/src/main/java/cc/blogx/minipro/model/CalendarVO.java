@@ -5,9 +5,19 @@ import java.util.List;
 
 public class CalendarVO implements Serializable {
 
+    private DayInfo dayInfo;
     private int beginWeek;
     private int maxDay;
     private List<CalendarDay> days;
+
+
+    public DayInfo getDayInfo() {
+        return dayInfo;
+    }
+
+    public void setDayInfo(DayInfo dayInfo) {
+        this.dayInfo = dayInfo;
+    }
 
     public int getBeginWeek() {
         return beginWeek;
@@ -32,6 +42,5 @@ public class CalendarVO implements Serializable {
     public void setDays(List<CalendarDay> days) {
         this.days = days;
     }
-
 
 }

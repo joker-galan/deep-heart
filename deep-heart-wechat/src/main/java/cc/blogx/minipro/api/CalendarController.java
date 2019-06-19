@@ -2,6 +2,7 @@ package cc.blogx.minipro.api;
 
 import cc.blogx.minipro.model.CalendarParam;
 import cc.blogx.minipro.model.CalendarVO;
+import cc.blogx.minipro.model.DayInfo;
 import cc.blogx.minipro.service.CalendarService;
 import cc.blogx.utils.common.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,17 @@ public class CalendarController {
         JsonResult<CalendarVO> jsonResult = JsonResult.getSuccess();
         try {
             jsonResult.setObj(calendarService.getMonthInfo(param));
+        } catch (Exception e) {
+            jsonResult.setException(e);
+        }
+        return jsonResult;
+    }
+
+    @PostMapping(value = "dayInfo")
+    public JsonResult<DayInfo> getDayInfo(CalendarParam param) {
+        JsonResult<DayInfo> jsonResult = JsonResult.getSuccess();
+        try {
+            jsonResult.setObj(calendarService.getDayInfo(param));
         } catch (Exception e) {
             jsonResult.setException(e);
         }

@@ -16,6 +16,7 @@ public class CalendarConstant {
 
     public static final String[] STEM = {"甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"};
 
+    public static final String[] WEEKS = {"", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期天"};
 
     /**
      * link. https://data.weather.gov.hk/gts/time/conversion1_text_c.htm
@@ -60,4 +61,6 @@ public class CalendarConstant {
     public static final int INIT_OFFSET = 48;
     public static final int INIT_1901 = 1901;
 
+    // 佛历与公历之间差异年
+    public static final int BUDDHA_OFFSET = 543;
 }
